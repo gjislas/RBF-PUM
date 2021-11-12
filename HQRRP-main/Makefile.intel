@@ -1,0 +1,35 @@
+# Defintions of variables.
+
+#CC = icc
+#CCFLAGS = -std=c99 -O2
+#LINKS = -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lm -ldl
+#INCS  = -I"${MKLROOT}/include"
+#LIBS = -lm -mkl=parallel -qopenmp
+#SRC = HQRRP_single.c NoFLA_HQRRP_WY_blk_var4_single.c
+#PPROC = -w3 -wd1418,2259
+#PPROC = -debug full -g -traceback
+EXE = hooray_intel
+
+#CC      = gcc
+#CCFLAGS = -O -fopenmp
+#LIBS    = -lgfortran -lm -llapack -lblas
+#SRC     = simple_test.c NoFLA_HQRRP_WY_blk_var4.c
+#PPROC   =
+#EXE     = hooray
+
+# Defintions of rules.
+
+single-HQRRP:
+	icc -O2 -mkl=parallel HQRRP_single.c NoFLA_HQRRP_WY_blk_var4_single.c -o intel_HQRRP_single
+
+double-HQRRP:
+	icc -O2 -mkl=parallel HQRRP_double.c NoFLA_HQRRP_WY_blk_var4.c -o intel_HQRRP_double
+
+single-QRCP:
+	icc -O2 -mkl=parallel QRCP_single.c -o intel_QRCP_single
+
+double-QRCP:
+	icc -O2 -mkl=parallel QRCP_double.c -o intel_QRCP_double
+
+clean: 
+	rm -fv $(EXE) *.o intel_*_single intel_*_double
